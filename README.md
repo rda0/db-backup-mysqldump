@@ -1,24 +1,24 @@
 # db-backup-mysqldump
 Create a full database backup using mysqldump
 
-## backup
+## Backup
 
-to plain `.sql`:
+To plain `.sql`:
 
 ```
 ./dump.sh
 ```
 
-to gzipped `.sql.gz`:
+To gzipped `.sql.gz`:
 
 ```
 cd gz
 ./dump_gz.sh
 ```
 
-## restore
+## Restore
 
-plain `.sql` dumps:
+Plain `.sql` dumps:
 
 ```
 cd backup-dir
@@ -26,7 +26,7 @@ mysql < schema/mysql_grants.sql
 mysql -A -e "flush privileges;"
 for DB in db/*.sql
 do
-    gunzip < ${DB} | mysql
+    mysql < ${DB}
 done
 cd ..
 ```
@@ -44,14 +44,14 @@ done
 cd ..
 ```
 
-## notes
+## Notes
 
 Using separate process, run `FLUSH TABLES WITH READ LOCK; SELECT SLEEP(86400)` before launching mysqldumps.  
 Kill this process after mysqldumps are complete. This is helpful if a database contains both `InnoDB` and `MyISAM`
 
 **Caveat**: mysqldumps created this way can only be reloaded into the same major release version of mysql.
 
-### mysqldump options explained
+### Default mysqldump options
 
 Required option: **`--opt`** (is on by default), is shorthand for the combination of:
 
